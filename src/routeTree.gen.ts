@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiMpesaStkPushRouteImport } from './routes/api/mpesa/stk-push'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiMpesaStkPushRoute = ApiMpesaStkPushRouteImport.update({
+  id: '/api/mpesa/stk-push',
+  path: '/api/mpesa/stk-push',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/mpesa/stk-push': typeof ApiMpesaStkPushRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/mpesa/stk-push': typeof ApiMpesaStkPushRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/mpesa/stk-push': typeof ApiMpesaStkPushRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/api/mpesa/stk-push'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/api/mpesa/stk-push'
+  id: '__root__' | '/' | '/api/mpesa/stk-push'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiMpesaStkPushRoute: typeof ApiMpesaStkPushRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/mpesa/stk-push': {
+      id: '/api/mpesa/stk-push'
+      path: '/api/mpesa/stk-push'
+      fullPath: '/api/mpesa/stk-push'
+      preLoaderRoute: typeof ApiMpesaStkPushRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiMpesaStkPushRoute: ApiMpesaStkPushRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
